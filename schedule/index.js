@@ -1,3 +1,4 @@
+
 import Schedule from 'node-schedule'
 
 Schedule.scheduleJob('42 * * * *', () => {

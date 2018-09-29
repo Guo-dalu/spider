@@ -1,46 +1,50 @@
 import winston from 'winston'
 import RotateFile from 'winston-daily-rotate-file'
 
-
 import config from '../config'
 
-console.log(config)
-
+const { createLogger, format, transports, addColors } = winston
+const { combine, timestamp, label, printf } = format
 const winstonConfig = config.winston
 
-winston.setLevels({
-  debug: 0,
-  info: 1,
-  warn: 2,
-  error: 3,
-})
+const myFormat = printf(info =>
+  `${new Date(info.timestamp).toLocaleString()} - [${info.label}] - ${info.level}: ${info.message}`)
 
-winston.addColors({
-  debug: 'blue',
-  info: 'cyan',
-  warn: 'yellow',
-  error: 'red',
-})
+const myCustomLevels = {
+  levels: {
+    error: 0,
+    warn: 1,
+    info: 2,
+    debug: 3,
+  },
+  colors: {
+    debug: 'blue',
+    info: 'cyan',
+    warn: 'yellow',
+    error: 'red',
+  },
+}
 
-const logger = new (winston.Logger)({
+addColors(myCustomLevels.colors)
+
+const logger = createLogger({
+  level: 'debug',
+  levels: myCustomLevels.levels,
+  format: combine(
+    format.colorize(),
+    label({ label: 'schedule' }),
+    timestamp(),
+    myFormat,
+  ),
+  exitOnError: false,
   transports: [
-    new (winston.transports.Console)({
-      level: winstonConfig.consoleLevel,
-      prettyPrint: true,
-      colorize: true,
-      silent: false,
-      timestamp: () => (new Date().toLocaleString()),
-    }),
-    new (RotateFile)({
+    new (transports.Console)(),
+    new RotateFile({
       level: winstonConfig.fileLevel,
-      prettyPrint: true,
-      silent: false,
-      colorize: false,
       filename: winstonConfig.filename,
       timestamp: () => (new Date().toLocaleString()),
-      json: false,
       maxFiles: 10,
-      datePattern: '.yyyy-MM-dd',
+      handleExceptions: true,
     }),
   ],
 })

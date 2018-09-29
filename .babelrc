@@ -1,0 +1,17 @@
+{
+  "presets": [
+    ["env", {
+      "useBuiltIns": true,
+      "targets": {
+        "browsers": ["last 3 versions"]
+      }
+    }]
+  ],
+  "plugins": [
+    "add-module-exports",
+    "transform-decorators-legacy",
+    "transform-object-rest-spread",
+    "syntax-dynamic-import",
+    "transform-class-properties"
+  ]
+}

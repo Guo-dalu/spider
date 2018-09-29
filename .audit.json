@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 10
+    },
+    "auditLog": "./.audit.json",
+    "files": [
+        {
+            "date": 1538219462600,
+            "name": "spider.log.2018-09-29",
+            "hash": "a793d99b4fc1cc733d5d2994f6cdb55e"
+        }
+    ]
+}

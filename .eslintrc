@@ -13,7 +13,7 @@
   "settings": {
     "import/ignore": [
       "node_modules",
-      "bin",
+      "bin/*",
       "app.js",
       "\\.json$"
     ],
@@ -90,6 +90,8 @@
     "__LOGGER__": true,
     "__DEVELOPMENT__": true,
     "__IS_PRODUCTION__": true,
+    "__PRODUCTION__": true,
+    "__TEST__": true,
     "__IS_MESSAGE_OPEN__": true,
     "__ALLOWED_EXPORTDATA__": true,
     "FileReader": true,
