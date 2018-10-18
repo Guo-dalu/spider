@@ -3,8 +3,8 @@ import Schedule from 'node-schedule'
 
 Schedule.scheduleJob('42 * * * *', () => {
   try {
-    // require('./boss')()
+    require('./csdn')()
   } catch (e) {
-    logger.error(e)
+    logger.error('爬取CSDN出现错误', e)
   }
 })

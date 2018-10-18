@@ -5,8 +5,8 @@
   "scripts": {
     "dev-api": "./node_modules/.bin/nodemon bin/www",
     "prd-api": "pm2 start bin/www",
-    "dev-spider": "./node_modules/.bin/nodemon bin/schedule",
-    "prd-spider": "pm2 start bin/schedule",
+    "dev-spider": "./node_modules/.bin/nodemon bin/schedule.js",
+    "prd-spider": "pm2 start bin/schedule.js",
     "test-api": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
