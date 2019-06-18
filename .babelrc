@@ -1,17 +1,22 @@
 {
   "presets": [
-    ["env", {
-      "useBuiltIns": true,
-      "targets": {
-        "browsers": ["last 3 versions"]
-      }
-    }]
+    [
+      "@babel/preset-env",
+      { 
+        "modules": "cjs",
+      } 
+    ]
   ],
   "plugins": [
-    "add-module-exports",
-    "transform-decorators-legacy",
-    "transform-object-rest-spread",
-    "syntax-dynamic-import",
-    "transform-class-properties"
-  ]
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-optional-chaining",
+    "dynamic-import-node",
+  ],
+  "comments": false,
 }
