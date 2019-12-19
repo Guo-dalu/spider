@@ -30,6 +30,7 @@
       2,
       "never"
     ],
+    "import/extensions": "never",
     "no-nested-ternary": 0,
     "comma-dangle": [
       2,

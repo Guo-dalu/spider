@@ -1,9 +1,8 @@
 import request from 'superagent'
-import {
-  USER_AGENTS
-} from './agent'
+import { USER_AGENTS } from './agent'
 
-const URLS = ['blog.csdn.net/github_36487770/article/details/81052936',
+const URLS = [
+  'blog.csdn.net/github_36487770/article/details/81052936',
   'blog.csdn.net/github_36487770/article/details/81168346',
   'blog.csdn.net/github_36487770/article/details/80319121',
   'blog.csdn.net/github_36487770/article/details/78538231',
@@ -33,16 +32,18 @@ const URLS = ['blog.csdn.net/github_36487770/article/details/81052936',
   'blog.csdn.net/github_36487770/article/details/77446598',
   'blog.csdn.net/github_36487770/article/details/77749672'
 ]
-const sleep = ms => new Promise((resolve) => {
-  setTimeout(resolve, ms)
-})
+const sleep = ms =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
 let tryTimes = 0
 
 async function spider(i) {
-  const res = await request.get(URLS[i % 4])
+  const res = await request
+    .get(URLS[i % 4])
     .set({
       'User-Agent': USER_AGENTS[Math.floor(i / 200)],
-      protocal: 'https: ',
+      protocal: 'https: '
     })
     .timeout(1000)
   console.log('get', i)
@@ -61,6 +62,5 @@ async function pro() {
     await sleep(5000)
   }
 }
-
 
 pro()

@@ -1,10 +1,9 @@
-
 import Schedule from 'node-schedule'
 
-Schedule.scheduleJob('42 * * * *', () => {
+Schedule.scheduleJob('0 * * * *', () => {
   try {
-    require('./csdn')()
+    require('./books')()
   } catch (e) {
-    logger.error('爬取CSDN出现错误', e)
+    logger.error('爬取books出现错误', e)
   }
 })
