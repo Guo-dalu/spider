@@ -1,6 +1,7 @@
 import cheerio from 'cheerio'
 import fs from 'fs'
 import request from '../utils/request'
+import sleep from '../utils/sleep'
 
 
 const baseUrl = 'http://www.txt101.com/id/8221'
@@ -28,9 +29,12 @@ function concatArticles(articles) {
 
 async function saveBook() {
   const articles = []
-  for (let i = startPageIndex; i <= startPageIndex + 2; i += 1) {
+  for (let i = startPageIndex; i <= endPageIndex; i += 1) {
     const article = await getPageContent(i)
     articles.push(article)
+    if (i % 5 === 0) {
+      sleep(500)
+    }
   }
   const book = concatArticles(articles)
 
