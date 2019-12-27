@@ -13,3 +13,4 @@ run/
 *.sw*
 *.un~
 migrations/seeds/
+*.txt
