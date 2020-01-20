@@ -1,4 +1,6 @@
-async function bulk(arr, deal, bulkSize) {
+import R from 'ramda'
+
+export async function bulk(arr, deal, bulkSize) {
   while (arr.length > bulkSize) {
     const current = arr.splice(0, bulkSize)
     await deal(current)
@@ -6,4 +8,36 @@ async function bulk(arr, deal, bulkSize) {
   await deal(arr)
 }
 
-export default bulk
+/**
+ * 批处理异步函数并将返回Promise<resolved>，将每个item的返回追映射在数组中返回，因为不确定items个数有多少，而nodeJS有并发限制，
+ * 故不用promise.all，而是逐个迭代
+ * @param {Array<any>} items
+ * @param {async Function} fn
+ * @returns {Promise}
+ */
+export async function series(items, fn) {
+  const result = []
+  return items
+    .reduce(
+      (prev, item) => fn(item).then(res => result.push(res)),
+      Promise.resolve()
+    )
+    .then(() => result)
+}
+
+/**
+ * 分块处理异步数组，并返回序列化数组
+ * @param {Array} items
+ * @param {async Function} fn
+ * @param {Number} chunkSize
+ * @returns {Promise}
+ */
+export async function chunks(items, fn, chunkSize = 5) {
+  const result = []
+  const highOrderChunks = R.splitEvery(chunkSize, items)
+  const dealBaseChunks = async (baseChunks) => {
+    const baseChunkResults = await Promise.all(baseChunks.map(fn))
+    result.push(baseChunkResults)
+  }
+  return series(highOrderChunks, dealBaseChunks).then(() => R.flatten(result))
+}

@@ -7,7 +7,7 @@
 		"prod-api": "pm2 start bin/www",
 		"dev-spider": "./node_modules/.bin/nodemon bin/schedule.js",
 		"prod-spider": "pm2 start bin/schedule.js",
-		"book": "nodemon entry.js",
+		"music": "nodemon entry.js",
 		"test-api": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
@@ -35,6 +35,8 @@
 		"koa-views": "^5.2.1",
 		"node-schedule": "^1.3.0",
 		"pug": "^2.0.0-rc.1",
+		"puppeteer": "^2.0.0",
+		"ramda": "^0.26.1",
 		"request": "^2.88.0",
 		"superagent": "^5.1.3",
 		"superagent-charset": "^1.2.0",

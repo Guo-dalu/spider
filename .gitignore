@@ -8,3 +8,4 @@ yarn.lock
 .DS_Store
 *-audit.json
 *.txt
+*.mp3
