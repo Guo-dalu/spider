@@ -1,11 +1,11 @@
 import R from 'ramda'
 
-export async function bulk(arr, deal, bulkSize) {
+export async function bulk(arr, deal, bulkSize = 2) {
   while (arr.length > bulkSize) {
     const current = arr.splice(0, bulkSize)
-    await deal(current)
+    await Promise.all(current.map(item => deal(item)))
   }
-  await deal(arr)
+  await Promise.all(arr.map(item => deal(item)))
 }
 
 /**
@@ -15,11 +15,11 @@ export async function bulk(arr, deal, bulkSize) {
  * @param {async Function} fn
  * @returns {Promise}
  */
-export async function series(items, fn) {
+export async function series(items, fn, ...args) {
   const result = []
   return items
     .reduce(
-      (prev, item) => fn(item).then(res => result.push(res)),
+      (prev, item) => fn(item, ...args).then(res => result.push(res)),
       Promise.resolve()
     )
     .then(() => result)

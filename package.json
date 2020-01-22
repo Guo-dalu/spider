@@ -7,7 +7,7 @@
 		"prod-api": "pm2 start bin/www",
 		"dev-spider": "./node_modules/.bin/nodemon bin/schedule.js",
 		"prod-spider": "pm2 start bin/schedule.js",
-		"music": "nodemon entry.js",
+		"start": "nodemon entry.js",
 		"test-api": "echo \"Error: no test specified\" && exit 1"
 	},
 	"dependencies": {
