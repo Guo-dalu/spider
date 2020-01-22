@@ -3,12 +3,15 @@ import RotateFile from 'winston-daily-rotate-file'
 
 import config from '../config'
 
-const { createLogger, format, transports, addColors } = winston
-const { combine, timestamp, label, printf } = format
+const {
+  createLogger, format, transports, addColors,
+} = winston
+const {
+  combine, timestamp, label, printf,
+} = format
 const winstonConfig = config.winston
 
-const myFormat = printf(info =>
-  `${new Date(info.timestamp).toLocaleString()} - [${info.label}] - ${info.level}: ${info.message}`)
+const myFormat = printf(info => `${new Date(info.timestamp).toLocaleString()} - [${info.label}] - ${info.level}: ${info.message}`)
 
 const myCustomLevels = {
   levels: {
