@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev-api": "nodemon bin/www",
-		"prod-api": "pm2 start bin/www",
+		"prod-api": "node bin/www",
 		"dev-spider": "./node_modules/.bin/nodemon bin/schedule.js",
 		"prod-spider": "pm2 start bin/schedule.js",
 		"start": "nodemon entry.js",
