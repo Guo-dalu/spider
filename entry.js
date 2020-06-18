@@ -1,7 +1,7 @@
 require('babel-register')
 require('babel-polyfill')
 
-require('./5sing')
+require('./utils')
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('unhandledRejection', reason, promise)

@@ -41,3 +41,42 @@ export async function chunks(items, fn, chunkSize = 5) {
   }
   return series(highOrderChunks, dealBaseChunks).then(() => R.flatten(result))
 }
+
+/**
+ * 控制最大并发数，比await Promise.all更快
+ * 类似排队买票，一共3个买票窗口，10个人来排队，一个窗口没人了就赶紧来排第二个人
+ * @param {*} urls 一组请求连接
+ * @param {*} handler 异步方法，比如fetch
+ * @param {*} limit 最大并发数
+ */
+export async function limitRequests(urls, handler, limit) {
+  const restCount = urls.length % limit
+  const restUrls = urls.splice(urls.length - restCount, restCount)
+
+  const sequence = [].concat(urls)
+  let promises = []
+  const result = []
+
+  const thenHandler = (res, index) => {
+    result.push(res)
+    return index
+  }
+
+  promises = sequence.splice(0, limit)
+    .map((url, index) => handler(url).then(res => thenHandler(res, index)))
+
+
+  async function loop() {
+    return sequence.reduce(
+      (prev, url) => prev.then((index) => {
+        promises[index] = handler(url).then(res => thenHandler(res, index))
+        return Promise.race(promises)
+      }),
+      Promise.race(promises)
+    )
+  }
+
+  await loop()
+  await Promise.all(restUrls.map(url => handler(url).then(res => thenHandler(res))))
+  return result
+}

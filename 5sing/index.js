@@ -4,6 +4,7 @@ import fs from 'fs'
 import browserPromise from '../utils/browser'
 import { bulk } from '../utils/bulk'
 
+
 async function downloadMp3({ src, title }) {
   const stream = fs.createWriteStream(path.join(__dirname, `./download/${title}.mp3`))
   const req = request.get(src)
