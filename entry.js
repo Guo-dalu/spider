@@ -1,7 +1,7 @@
 require('babel-register')
 require('babel-polyfill')
 
-require('./utils')
+require('./forecast')
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('unhandledRejection', reason, promise)
