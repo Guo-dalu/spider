@@ -1,7 +1,7 @@
 require('babel-register')
 require('babel-polyfill')
 
-require('./forecast')
+require('./liveImages')
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('unhandledRejection', reason, promise)
