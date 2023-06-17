@@ -11,6 +11,9 @@ export async function bulk(arr, deal, bulkSize = 2) {
 /**
  * 批处理异步函数并将返回Promise<resolved>，将每个item的返回追映射在数组中返回，因为不确定items个数有多少，而nodeJS有并发限制，
  * 故不用promise.all，而是逐个迭代
+ * Batch processing asynchronous functions and returning an array of resolved promises that map to the return values of each item.
+ * Since the number of items is unknown, and there are concurrency limits in Node.js, Promise.all() cannot be used.
+ *
  * @param {Array<any>} items
  * @param {async Function} fn
  * @returns {Promise}
@@ -27,6 +30,8 @@ export async function series(items, fn, ...args) {
 
 /**
  * 分块处理异步数组，并返回序列化数组
+ * Chunking an asynchronous array and returning a serialized array.
+ *
  * @param {Array} items
  * @param {async Function} fn
  * @param {Number} chunkSize
@@ -43,11 +48,13 @@ export async function chunks(items, fn, chunkSize = 5) {
 }
 
 /**
- * 控制最大并发数，比await Promise.all更快
- * 类似排队买票，一共3个买票窗口，10个人来排队，一个窗口没人了就赶紧来排第二个人
- * @param {*} urls 一组请求连接
- * @param {*} handler 异步方法，比如fetch
- * @param {*} limit 最大并发数
+ * Controlling maximum concurrency, faster than using await Promise.all() to chunks.
+ * Similar to queuing up to buy tickets. 3 ticket windows in total, and 10 people are waiting in
+ * line. When a window is available, the next person in line goes to the empty window.
+ *
+ * @param {*} urls a set of request URLs.
+ * @param {*} handler an asynchronous method, such as fetch().
+ * @param {*} limit the maximum concurrency limit.
  */
 export async function limitRequests(urls, handler, limit) {
   const restCount = urls.length % limit

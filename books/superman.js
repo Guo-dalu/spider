@@ -7,7 +7,7 @@ import browserPromise from '../utils/browser'
 const BASE_URL = 'https://h.fkxs.net'
 
 async function getChapters() {
-  const res = await request.get(`${BASE_URL}/book/148674/0/1.html`).buffer(true)
+  const res = await request.get(`${BASE_URL}/book/142426/0/1.html`).buffer(true)
   const $ = cheerio.load(res.text)
   const list = $('.dc-cap > a')
   return Array.from(list).map((item) => {
@@ -46,7 +46,7 @@ async function saveBook() {
   const chapters = await getChapters()
   for (let i = 0; i < chapters.length; i += 1) {
     const content = await getChapterContent(chapters[i].link)
-    fs.writeFileSync(`./人间观察黑皮书/${chapters[i].title.trim()}.txt`, content)
+    fs.writeFileSync(`./lovestory/${chapters[i].title.trim()}.txt`, content)
   }
 }
 

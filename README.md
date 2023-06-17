@@ -1,8 +1,53 @@
 ## Spider Writing in Nodejs
 
-This is a nodejs project aimed to spider some books, music, articles and other resources for myself. Using superagent as request library and `puppeteer` as headless browser api provider.
+This is a Node.js project that I created to scrape books, music, articles, weather forecasts, and other resources for my personal use. For making requests, I'm using the `superagent` library. To access content on dynamically generated websites, I've implemented `puppeteer` as a headless browser. All of the content that is scraped by the spider will be downloaded and saved to local folders using the `fs` module of Node.js.
 
-You can change code in `entry.js` and `package.json > script` to switch spider type. The spider script is concise small code segment assorted according to the type and resources. For example, in `5sing` folder, you can find spider to download music in 5sing.com(an original music website, hot in young people in China).
+Due to the concurrency limits in Node.js, we cannot simply use `Promise.all()` to process all the requests at one time. So I created a separated utils files called `bulk.js` to deal with the batching process, including the *chunking* method and *max concurrency* method. For example, here's the code of controlling the max amount of concurrency and proccess the batch requesting(or other async functions).
+
+```js
+/**
+ * Controlling maximum concurrency, faster than using await Promise.all() to chunks.
+ * Similar to queuing up to buy tickets. 3 ticket windows in total, and 10 people are waiting in
+ * line. When a window is available, the next person in line goes to the empty window.
+ *
+ * @param {*} urls a set of request URLs.
+ * @param {*} handler an asynchronous method, such as fetch().
+ * @param {*} limit the maximum concurrency limit.
+ */
+export async function limitRequests(urls, handler, limit) {
+  const restCount = urls.length % limit
+  const restUrls = urls.splice(urls.length - restCount, restCount)
+
+  const sequence = [].concat(urls)
+  let promises = []
+  const result = []
+
+  const thenHandler = (res, index) => {
+    result.push(res)
+    return index
+  }
+
+  promises = sequence.splice(0, limit)
+    .map((url, index) => handler(url).then(res => thenHandler(res, index)))
+
+
+  async function loop() {
+    return sequence.reduce(
+      (prev, url) => prev.then((index) => {
+        promises[index] = handler(url).then(res => thenHandler(res, index))
+        return Promise.race(promises)
+      }),
+      Promise.race(promises)
+    )
+  }
+
+  await loop()
+  await Promise.all(restUrls.map(url => handler(url).then(res => thenHandler(res))))
+  return result
+}
+```
+
+You can change code in `entry.js` and `package.json > script` to switch spider type. The spider script is concise and small code segment assorted according to the type and resources. For example, in `5sing` folder, you can find spider to download music in 5sing.com(an original music website, hot in young people in China).
 
 ---
 
