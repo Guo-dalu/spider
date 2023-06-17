@@ -3,8 +3,8 @@ import fs from 'fs'
 import request from '../utils/request'
 import browserPromise from '../utils/browser'
 
-
-const BASE_URL = 'https://h.fkxs.net'
+// deleted the real url
+const BASE_URL = ''
 
 async function getChapters() {
   const res = await request.get(`${BASE_URL}/book/142426/0/1.html`).buffer(true)

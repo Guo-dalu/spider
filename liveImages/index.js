@@ -4,6 +4,7 @@ import fs from 'fs'
 import browserPromise from '../utils/browser'
 import { bulk } from '../utils/bulk'
 
+// I delete the real url for privacy
 const LIVE_URL = ''
 
 async function downloadImage({ src, title }) {
