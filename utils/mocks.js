@@ -3,7 +3,7 @@ export const createIncArr = n => Array.from({ length: n }).map((v, index) => ind
 export const asyncFn = (msg, timeout = 1000) => new Promise((resolve) => {
   console.log('into asyncfn', msg)
   setTimeout(() => {
-    console.log(msg)
+    console.log('resolved!', msg)
     resolve(msg)
   }, timeout)
 })

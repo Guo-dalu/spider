@@ -15,11 +15,6 @@ Due to the concurrency limits in Node.js, we cannot simply use `Promise.all()` t
  * @param {*} limit the maximum concurrency limit.
  */
 export async function limitRequests(urls, handler, limit) {
-  const restCount = urls.length % limit
-  const restUrls = urls.splice(urls.length - restCount, restCount)
-
-  const sequence = [].concat(urls)
-  let promises = []
   const result = []
 
   const thenHandler = (res, index) => {
@@ -27,12 +22,13 @@ export async function limitRequests(urls, handler, limit) {
     return index
   }
 
-  promises = sequence.splice(0, limit)
+  // initial promises, with maximum concurrcy(limit)
+  const promises = urls.slice(0, limit)
     .map((url, index) => handler(url).then(res => thenHandler(res, index)))
 
 
   async function loop() {
-    return sequence.reduce(
+    return urls.slice(limit).reduce(
       (prev, url) => prev.then((index) => {
         promises[index] = handler(url).then(res => thenHandler(res, index))
         return Promise.race(promises)
@@ -42,7 +38,6 @@ export async function limitRequests(urls, handler, limit) {
   }
 
   await loop()
-  await Promise.all(restUrls.map(url => handler(url).then(res => thenHandler(res))))
   return result
 }
 ```
