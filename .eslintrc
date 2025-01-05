@@ -8,35 +8,19 @@
   "extends": [
     "eslint:recommended",
     "plugin:import/errors",
-    "plugin:import/warnings",
-    "airbnb-base"
+    "plugin:import/warnings"
   ],
-  "plugins": [
-    "babel",
-    "import"
-  ],
+  "plugins": ["babel", "import"],
   "settings": {
-    "import/ignore": [
-      "node_modules",
-      "\\.json$"
-    ],
+    "import/ignore": ["node_modules", "\\.json$"],
     "import/parser": "babel-eslint",
     "import/resolve": {
-      "extensions": [
-        ".js",
-        ".json"
-      ]
+      "extensions": [".js", ".json"]
     }
   },
   "rules": {
-    "semi": [
-      2,
-      "never"
-    ],
-    "comma-dangle": [
-      2,
-      "always-multiline"
-    ],
+    "semi": [2, "never"],
+    "comma-dangle": [2, "always-multiline"],
     "indent": [
       2,
       2,
@@ -67,10 +51,7 @@
     "new-cap": [
       2,
       {
-        "capIsNewExceptions": [
-          "express.Router",
-          "Radium"
-        ]
+        "capIsNewExceptions": ["express.Router", "Radium"]
       }
     ],
     "no-param-reassign": [
@@ -85,7 +66,11 @@
     "debug": true,
     "path": true,
     "env": true,
+    "Promise": true,
+    "require": true,
     "outputLog": true,
+    "process": true,
+    "console": true,
     "__SERVER__": true,
     "__CLIENT__": true,
     "__ENV__": true,
