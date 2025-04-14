@@ -7,8 +7,13 @@ const BASE_URL = 'http://lyecs.ccppg.com.cn'
 async function saveMagazineForWholeYear(year) {
   for (let i = 1; i <= 12; i += 1) {
     const issue = `${year}${i.toString().padStart(2, '0')}`
+    const downloadFolderPath =  path.join(__dirname, `./download/`)
+    if (!fs.existsSync(downloadFolderPath)){
+      fs.mkdirSync(downloadFolderPath);
+    }
     const stream = fs.createWriteStream(
-      path.join(__dirname, `./download/${issue}.pdf`)
+      path.join(downloadFolderPath, `./${issue}.pdf`)
+
     )
     const req = request.get(`${BASE_URL}/pdf/${issue}.pdf`)
 
